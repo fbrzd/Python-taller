@@ -1,0 +1,19 @@
+# USER DEBE ESTAR ANTES DE MESS (MENSAJES) Y PUBL (PUBLICACIONES)
+
+*user
+#USUARIOS, USER-NAME;PASSWORD
+fzio;pass
+marti;pass
+willy;pass
+
+*mess
+#MENSAJES, USER-NAME-FROM;USER-NAME-TO;TEXT;DATE;REVISED
+
+fzio;marti;que pasa choro mota;5;0
+marti;fzio;matate pelmazo;6;0
+
+*publ
+#PUBLICACIONES, USER-NAME;TEXT;DATE;LIKES;REVISED
+
+marti;soy gay;2;10;0
+willy;yo tambien;4;5;1
