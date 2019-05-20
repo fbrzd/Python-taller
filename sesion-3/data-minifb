@@ -2,18 +2,14 @@
 
 *user
 #USUARIOS, USER-NAME;PASSWORD
-fzio;pass
-marti;pass
-willy;pass
+admin1;pass
+admin2;pass
 
 *mess
 #MENSAJES, USER-NAME-FROM;USER-NAME-TO;TEXT;DATE;REVISED
 
-fzio;marti;que pasa choro mota;5;0
-marti;fzio;matate pelmazo;6;0
+#fzio;marti;que pasa choro mota;5;0
 
 *publ
 #PUBLICACIONES, USER-NAME;TEXT;DATE;LIKES;REVISED
-
-marti;soy gay;2;10;0
-willy;yo tambien;4;5;1
+admin1;primer post de minifb;0;50;1

@@ -11,7 +11,7 @@ class User:
             c.revised = 1
         return mes,pub
     
-    def send(self, text, name, date):
+    def send(self, name, text, date):
         for u in USERS:
             if u.name == name:
                 Message(self, u, text, date)
@@ -20,6 +20,14 @@ class User:
     
     def post(self, text, date):
         Publication(self, text, date)
+
+    def like(self, name, date):
+        for p in PUBLICATIONS:
+            if p.userNoticed.name == name and p.date == date:
+                p.likes += 1
+                p.revised = 0
+                return 1
+        return 0
 
 class Content:
     def __init__(self, user, text, date):
@@ -40,10 +48,6 @@ class Publication(Content):
         self.likes = 0
         self.revised = 1
         PUBLICATIONS.append(self)
-    
-    def like(self, user):
-        self.like += 1
-        self.revised = 0
 
 # LOAD
 def loadData(nf):
@@ -75,8 +79,28 @@ def loadData(nf):
                 us,text,date,likes,revs = l.split(';')
                 p = Publication(KV_USERS[us], text, int(date))
                 p.revised = int(revs)
+                p.likes = int(likes)
     
     return USERS,MESSAGES,PUBLICATIONS
+
+# SAVE
+def saveData(nf):
+    with open(nf, 'w') as f:
+        
+        f.write("*user\n")
+        for u in USERS:
+            l = ';'.join((u.name,u.pasw))
+            f.write(l + '\n')
+        
+        f.write("\n*mess\n")
+        for m in MESSAGES:
+            l = ';'.join((m.origin.name, m.userNoticed.name, m.text, str(m.date), str(m.revised)))
+            f.write(l + '\n')
+        
+        f.write("\n*publ\n")
+        for p in PUBLICATIONS:
+            l = ';'.join((p.userNoticed.name, p.text, str(p.date), str(p.likes), str(p.revised)))
+            f.write(l + '\n')
 
 def LogIn(name, pasw):
     for u in USERS:
@@ -90,9 +114,11 @@ def SignUp(name, pasw):
         if u.name == name: return None
     return User(name, pasw)
 
+def LastContent(n):
+    PUBLICATIONS.sort(key=lambda p: -p.date)
+    return PUBLICATIONS[:min(n,len(PUBLICATIONS))]
+
 # INIT DATA
 USERS = list()
 MESSAGES = list()
 PUBLICATIONS = list()
-
-loadData("data-minifb")
